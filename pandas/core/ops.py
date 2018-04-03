@@ -397,6 +397,76 @@ d  -1.0  NaN
 e  NaN  -2.0
 """
 
+
+_pow_example_FRAME = """
+>>> a = pd.DataFrame([2, 1, 1, np.nan], index=['a', 'b', 'c', 'd'],
+...                  columns=['one'])
+>>> a
+   one
+a  2.0
+b  1.0
+c  1.0
+d  NaN
+>>> b = pd.DataFrame(dict(one=[1, np.nan, 1, np.nan],
+...                       two=[3, 2, np.nan, 2]),
+...                  index=['a', 'b', 'd', 'e'])
+>>> b
+   one  two
+a  1.0  3.0
+b  NaN  2.0
+d  1.0  NaN
+e  NaN  2.0
+>>> a.pow(b)
+   one  two
+a  1.0  NaN
+b  1.0  NaN
+c  1.0  NaN
+d  NaN  NaN
+e  NaN  NaN
+>>> a.pow(b,fill_value=0)
+   one  two
+a  1.0  0.0
+b  1.0  0.0
+c  1.0  NaN
+d  0.0  NaN
+e  NaN  0.0
+"""
+
+
+_rpow_example_FRAME = """
+>>> a = pd.DataFrame([2, 1, 1, np.nan], index=['a', 'b', 'c', 'd'],
+...                  columns=['one'])
+>>> a
+   one
+a  2.0
+b  1.0
+c  1.0
+d  NaN
+>>> b = pd.DataFrame(dict(one=[1, np.nan, 1, np.nan],
+...                       two=[3, 2, np.nan, 2]),
+...                  index=['a', 'b', 'd', 'e'])
+>>> b
+   one  two
+a  1.0  3.0
+b  NaN  2.0
+d  1.0  NaN
+e  NaN  2.0
+>>> a.rpow(b)
+   one  two
+a  1.0  NaN
+b  NaN  NaN
+c  NaN  NaN
+d  1.0  NaN
+e  NaN  NaN
+>>> a.rpow(b,fill_value=0)
+   one  two
+a  1.0  1.0
+b  0.0  1.0
+c  0.0  NaN
+d  1.0  NaN
+e  NaN  1.0
+"""
+
 _op_descriptions = {
     # Arithmetic Operators
     'add': {'op': '+',
@@ -418,7 +488,7 @@ _op_descriptions = {
     'pow': {'op': '**',
             'desc': 'Exponential power',
             'reverse': 'rpow',
-            'df_examples': None},
+            'df_examples': _pow_example_FRAME},
     'truediv': {'op': '/',
                 'desc': 'Floating division',
                 'reverse': 'rtruediv',
